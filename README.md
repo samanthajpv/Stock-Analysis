@@ -33,7 +33,9 @@ Looking at the returns, 2017 was a good year for green stocks with majority havi
 
 The user is prompted to input the desired year for analysis through clicking a macro button. Once entered, the code will run and return a message box with the run time of the script. For the existing solution code, the runtime for analyzing the 2017 data is 0.5859 seconds while 0.6016 for 2018.
 
-The existing solution code has a nested for loop from looping through the tickers to looping through rows with conditional code up to displaying the results of the analysis. This creates a big
+<img src="https://github.com/samanthajpv/Stock-Analysis/blob/35487e6618347d82e70d905d616295d9ea5d68b8/Resources/Additional/Existing%20Solution%20Code%20-%20Nested%20For%20Loop.png" width="300" height="400">
+
+The existing solution code has a nested for loop starting from looping through the tickers to looping through rows with conditional code, up to displaying the results of the analysis.
 
 ### VBA Script - Refactored
 
@@ -41,13 +43,34 @@ The existing solution code has a nested for loop from looping through the ticker
 | ------------- | ------------- |
 | <img src="https://github.com/samanthajpv/Stock-Analysis/blob/ac17686c161d9da5a2e187b2c2385824c954db2c/Resources/VBA_Challenge_2017.png" width="320" height="100">|<img src="https://github.com/samanthajpv/Stock-Analysis/blob/ac17686c161d9da5a2e187b2c2385824c954db2c/Resources/VBA_Challenge_2018.png" width="320" height="100">|
 
+The same data was used and the same output was created with the refactored script to ensure that performance can be compared against that of the existing script. With the refactored code, the runtime for analyzing 2017 and 2018 data went down to 0.1172s and 0.125s respectively.
+
+```
+ '1a) Create a ticker Index
+    'setting tickerIndex to zero before it iterates through the rows
+    tickerIndex = 0
+
+    '1b) Create three output arrays
+    'declaring arrays to store the values for the analysis
+    Dim tickerVolumes(11) As Long
+    Dim tickerStartingPrices(11) As Single
+    Dim tickerEndingPrices(11) As Single
+```
+The first modification in the script was the utilization of indexing and output arrays. A ```tickerIndex``` was created and arrays for the volume and prices. Arrays use in-memory processing which makes it a better performer compared to looping through cells *(Sagmon, 2020)*. The index is used to call each element in the array.
+
+<img src="https://github.com/samanthajpv/Stock-Analysis/blob/35487e6618347d82e70d905d616295d9ea5d68b8/Resources/Additional/Refactored%20Script%20-%20For%20Loops.png" width="500" height="400">
+
+The second modifcation was the breaking of the nested loop. The refactored code now has three *For Loops* instead of one big nested loop. This was possible in this case because of the use of the output arrays. Also, the conditional statement for the volume was replaced with a single formula:
+``` tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value ``` *(Formula from https://courses.bootcampspot.com/courses/626/assignments/13362?module_item_id=211669)*
+
 ### VBA Script - Comparison
 
-| Year | Existing Script Runtime | Refactored Script Runtime | Performance Difference |
+| Year | Existing Script Runtime | Refactored Script Runtime | Runtime % Difference |
 | ------------- | :-----------: | :-----------: | :-----------: |
 | 2017 | 0.5859375s | 0.1171875s | 80.0% |
 | 2018 | 0.6015625s | 0.1250s | 79.2% |
 
+Runtimes for analyzing the dataset decreased by 80% for 2017 and 79.2% for 2018. Refactoring the code was indeed successful. The refactored code is roughly 5 times faster than the initial solution code and this is a huge improvement in script performance. 
 
 ## Summary
 In a summary statement, address the following questions.
@@ -56,3 +79,5 @@ In a summary statement, address the following questions.
 
 
 ## References
+
+https://www.morsagmon.com/blog/Excel-VBA-Arrays
