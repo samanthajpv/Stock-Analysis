@@ -113,4 +113,4 @@ Sub AllStocksAnalysisRefactored()
     MsgBox "This code ran in " & (endTime - startTime) & " seconds for the year " & (yearvalue)
 
 End Sub
-'add newline -to be deleted
+
